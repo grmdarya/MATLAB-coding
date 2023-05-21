@@ -1,2 +1,5 @@
 # MATLAB-coding
-Several encryption and signal processing algorithms implemented with MATLAB
+
+Программы по кодированию информации и обработке изображений на языке MATLAB.
+
+
