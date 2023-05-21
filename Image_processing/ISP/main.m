@@ -1,3 +1,9 @@
+% Имитация внутреннего алгоритма преобразования RAW -> sRGB изображения состоит из шагов:
+% 1) Чтение сырого кадра
+% 2) шумоподавление
+% 3) баланс белого методом среднеквадратичного отклонения
+% 4) демозайкинг
+% 5) гамма коррекция
 clc; clear all;
 
 % Деление набора кадров (10 RAW кадров) на отдельные.
@@ -15,18 +21,18 @@ file = read_image('im_4.raw', '*uint16', [1280 1024], 16);
 file_denoise = unite_rgb(R, G, B);
 
 % Gray World
-[R, G, B] = divide_rgb(file_denoise);
-R_max = max(R, [],  'all');
-G_max = max(G, [],  'all');
-B_max = max(B, [],  'all');
+% [R, G, B] = divide_rgb(file_denoise);
+% R_max = max(R, [],  'all');
+% G_max = max(G, [],  'all');
+% B_max = max(B, [],  'all');
 
-rgb_corr = [ G_max / R_max, 1, G_max / B_max];
+% rgb_corr = [ G_max / R_max, 1, G_max / B_max];
 
-newR = R * rgb_corr(1);
-newG = G * rgb_corr(2);
-newB = B * rgb_corr(3);
+% newR = R * rgb_corr(1);
+% newG = G * rgb_corr(2);
+% newB = B * rgb_corr(3);
 
-file_gw = unite_rgb(newR, newG, newB);
+% file_gw = unite_rgb(newR, newG, newB);
 
 
 % Баланс белого по среднему отклонению
@@ -58,6 +64,6 @@ file_gamma = gamma_correction(file_demosaic);
 figure(1); imshow(file); title('Raw image');                % сырое
 figure(2); imshow(file_denoise); title('Denoised');         % сглаженное
 figure(3); imshow(file_wb); title('SDWGW');                 % баланс белого
-%figure(3), imshow(file_gw); title('GRAY WORLD');            % GRAY WORLD ASSUMPTION
+% figure(3), imshow(file_gw); title('GRAY WORLD');          % GRAY WORLD ASSUMPTION
 figure(4); imshow(file_demosaic); title('Demosaic image');  % деиозайка
 figure(5); imshow(file_gamma); title('Gamma image');        % гамма коррекцияS
